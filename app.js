@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let width = 10;
   let ghostAmount = 20;
   let squares = [];
+  let isGameOver = false;
 
 
   //create board
@@ -35,12 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (squares[i].classList.contains('safe')) {
         if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('ghost')) total++;
         if (i > 9 && !isRightEdge && squares[i + 1 - width].classList.contains('ghost')) total++;
-        if (i > 10 && squares[i -width].classList.contains('ghost')) total++;
+        if (i > 10 && squares[i - width].classList.contains('ghost')) total++;
         if (i > 11 && !isLeftEdge && squares[i - 1 - width].classList.contains('ghost')) total++;
         if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('ghost')) total++;
         if (i < 90 && !isLeftEdge && squares[i - 1 + width].classList.contains('ghost')) total++;
         if (i < 88 && !isRightEdge && squares[i + 1 + width].classList.contains('ghost')) total++;
-        if (i < 89 && squares[i +width].classList.contains('ghost')) total++;
+        if (i < 89 && squares[i + width].classList.contains('ghost')) total++;
         squares[i].setAttribute('data', total);
       }
     }    
@@ -50,10 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //click on square actions
   const click = (square) => {
+    if (isGameOver) return;
+    if (square.classList.contains('checked') || square.classList.contains('pumpkin')) return;
     if (square.classList.contains('ghost')) {
-      alert('Game over!')
+      console.log('game over');
+    } else {
+      let total = square.getAttribute('data');
+      if (Number(total) !== 0) {
+        square.classList.add('checked');
+        square.innerHTML = total;
+        return;
+      }
+      square.classList.add('checked');
     }
   }
-
 
 });
