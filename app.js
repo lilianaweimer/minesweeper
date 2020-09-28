@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid');
+  const remainingPumpkins = document.querySelector('#pumpkins');
+  const gameResult = document.querySelector('#win');
   let width = 10;
   let ghostAmount = 20;
   let pumpkins = 0;
@@ -9,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //create board
   const createBoard = () => {
+    for (let i = 0; i < ghostAmount; i++) {
+      remainingPumpkins.insertAdjacentHTML('beforeend', `<p class='pumpkin-in-storage'>🎃</p>`);
+    }
+
     //get shuffled game array with random ghosts
     const ghostArray = Array(ghostAmount).fill('ghost');
     const emptyArray = Array((width * width) - ghostAmount).fill('safe');
@@ -51,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (i < 89 && squares[i + width].classList.contains('ghost')) total++;
         squares[i].setAttribute('data', total);
       }
-    }    
+    }
   };
 
   createBoard();
@@ -63,11 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!square.classList.contains('pumpkin')) {
         square.classList.add('pumpkin');
         square.innerHTML = '🎃';
+        remainingPumpkins.firstChild.remove();
         pumpkins++;
         checkForWin();
       } else {
         square.classList.remove('pumpkin');
         square.innerHTML = '';
+        remainingPumpkins.insertAdjacentHTML('beforeend', `<p class='pumpkin-in-storage'>🎃</p>`);
         pumpkins--;
       }
     }

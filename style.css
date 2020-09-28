@@ -58,9 +58,14 @@ div {
 }
 
 .pumpkin-storage {
-  width: 400px;
-  height: fit-content;
-  background-color: saddlebrown;
+  box-sizing: border-box;
+  width: 377px;
+  background-color: darkgreen;
+  border: 4px outset green;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
 }
 
 .win-paragraph {
@@ -79,4 +84,14 @@ div {
   background-color: orange;
   border: 5px outset saddlebrown;
   cursor: pointer;
+}
+
+.pumpkin-in-storage {
+  height: 40px;
+  width: 40px;
+  box-sizing: border-box;
+  margin: 3px;
+  padding: 3px;
+  border: 5px inset green;
+  background-color: saddlebrown;
 }
