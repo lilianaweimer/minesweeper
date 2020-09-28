@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid');
   const remainingPumpkins = document.querySelector('#pumpkins');
   const gameResult = document.querySelector('#win');
+  const playAgain = document.querySelector('.play-button');
+  const pumpkinParagraph = document.querySelector('.pumpkin-paragraph');
   let width = 10;
   let ghostAmount = 20;
   let pumpkins = 0;
@@ -38,6 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         addPumpkin(square);
       };
+
+      playAgain.addEventListener('click', () => {
+        startOver();
+      })
     };
 
     //add numbers to squares indicating nearby ghosts
@@ -154,7 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
   //game over!
   const gameOver = (square) => {
     isGameOver = true;
-
+    gameResult.innerText = 'You lose!';
+    pumpkinParagraph.classList.add('hidden');
+    remainingPumpkins.classList.add('hidden');
+    playAgain.classList.remove('hidden');
     //reveal all ghosts
     squares.forEach(square => {
       if (square.classList.contains('ghost')) {
@@ -171,10 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         matches++;
       }
       if (matches === ghostAmount) {
-        console.log('winner!!');
+        gameResult.innerText = 'You win!';
+        pumpkinParagraph.classList.add('hidden');
+        remainingPumpkins.classList.add('hidden');
+        playAgain.classList.remove('hidden');
         isGameOver = true;
       }
     }
-  }
+  };
+
+  const startOver = () => {
+    location.reload();
+  };
 
 });
