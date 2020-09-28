@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid');
+  const remainingPumpkins = document.querySelector('#pumpkins');
+  const gameResult = document.querySelector('#win');
+  const playAgain = document.querySelector('.play-button');
+  const pumpkinParagraph = document.querySelector('.pumpkin-paragraph');
   let width = 10;
   let ghostAmount = 20;
   let pumpkins = 0;
@@ -9,6 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //create board
   const createBoard = () => {
+    for (let i = 0; i < ghostAmount; i++) {
+      remainingPumpkins.insertAdjacentHTML('beforeend', `<p class='pumpkin-in-storage'>🎃</p>`);
+    }
+
     //get shuffled game array with random ghosts
     const ghostArray = Array(ghostAmount).fill('ghost');
     const emptyArray = Array((width * width) - ghostAmount).fill('safe');
@@ -32,6 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         addPumpkin(square);
       };
+
+      playAgain.addEventListener('click', () => {
+        startOver();
+      })
     };
 
     //add numbers to squares indicating nearby ghosts
@@ -51,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (i < 89 && squares[i + width].classList.contains('ghost')) total++;
         squares[i].setAttribute('data', total);
       }
-    }    
+    }
   };
 
   createBoard();
@@ -63,11 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!square.classList.contains('pumpkin')) {
         square.classList.add('pumpkin');
         square.innerHTML = '🎃';
+        remainingPumpkins.firstChild.remove();
         pumpkins++;
         checkForWin();
       } else {
         square.classList.remove('pumpkin');
         square.innerHTML = '';
+        remainingPumpkins.insertAdjacentHTML('beforeend', `<p class='pumpkin-in-storage'>🎃</p>`);
         pumpkins--;
       }
     }
@@ -146,7 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
   //game over!
   const gameOver = (square) => {
     isGameOver = true;
-
+    gameResult.innerText = 'You lose!';
+    pumpkinParagraph.classList.add('hidden');
+    remainingPumpkins.classList.add('hidden');
+    playAgain.classList.remove('hidden');
     //reveal all ghosts
     squares.forEach(square => {
       if (square.classList.contains('ghost')) {
@@ -163,10 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         matches++;
       }
       if (matches === ghostAmount) {
-        console.log('winner!!');
+        gameResult.innerText = 'You win!';
+        pumpkinParagraph.classList.add('hidden');
+        remainingPumpkins.classList.add('hidden');
+        playAgain.classList.remove('hidden');
         isGameOver = true;
       }
     }
-  }
+  };
+
+  const startOver = () => {
+    location.reload();
+  };
 
 });

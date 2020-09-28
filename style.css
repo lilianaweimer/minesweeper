@@ -1,18 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Lacquer&display=swap');
+
+body {
+  background-color: black;
+  font-family: 'Lacquer', sans-serif;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  letter-spacing: 0.2em;
+}
+
+.game-area {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
 .grid {
   height: 400px;
   width: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: grey;
+  border: 10px outset saddlebrown;
+  /* border-radius: 3px; */
+}
+
+div {
+  font-size: 25px;
+  text-align: center;
 }
 
 .grid div {
   height: 40px;
   width: 40px;
+  box-sizing: border-box;
+  border: 5px outset darkgreen;
+  cursor: pointer;
 }
 
 .ghost {
-  background-color: orange;
+  background-color: green;
 }
 
 .safe {
@@ -20,5 +48,50 @@
 }
 
 .checked {
-  background-color: honeydew;
+  background-color: saddlebrown;
+  border: 5px inset saddlebrown!important;
+  cursor: default!important;
+}
+
+.pumpkin-paragraph {
+  color: white;
+}
+
+.pumpkin-storage {
+  box-sizing: border-box;
+  width: 377px;
+  background-color: darkgreen;
+  border: 4px outset green;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+.win-paragraph {
+  color: white;
+  font-size: 35px;
+}
+
+.hidden {
+  display: none;
+}
+
+.play-button {
+  color: black;
+  font-family: 'Lacquer', cursive;
+  font-size: 25px;
+  background-color: orange;
+  border: 5px outset saddlebrown;
+  cursor: pointer;
+}
+
+.pumpkin-in-storage {
+  height: 40px;
+  width: 40px;
+  box-sizing: border-box;
+  margin: 3px;
+  padding: 3px;
+  border: 5px inset green;
+  background-color: saddlebrown;
 }
