@@ -2,14 +2,19 @@
 <html lang='en' dir='ltr'>
   <head>
     <meta charset='UTF-8'>
-    <title>Minesweeper!</title>
+    <title>Ghosts in the Pumpkin Patch!</title>
     <link rel='stylesheet' href='style.css'></link>
     <script src='app.js' charset='utf-8'></script>
   </head>
 
   <body>
     <h1>Ghosts in the Pumpkin Patch!</h1>
-    <div class='grid'></div>
-
+    <section class='game-area'>
+      <div class='grid'></div>
+      <p class='pumpkin-paragraph'>Pumpkins left...</p>
+      <div class='pumpkin-storage' id='pumpkins'></div>
+      <p class='win-paragraph' id='win'></p>
+      <button class='hidden play-button'>Play again!</button>
+    </section>
   </body>
 </html>
