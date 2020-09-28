@@ -1,9 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+body {
+  background-color: black;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+}
+
 .grid {
   height: 400px;
   width: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: grey;
+  border: 10px solid white;
+  margin: 0 auto;
 }
 
 .grid div {
