@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.grid');
   let width = 10;
   let ghostAmount = 20;
+  let pumpkins = 0;
   let squares = [];
   let isGameOver = false;
 
@@ -24,8 +25,14 @@ document.addEventListener('DOMContentLoaded', () => {
       //normal click
       square.addEventListener('click', (e) => {
         click(square)
-      })
-    }
+      });
+
+      //right or control click
+      square.oncontextmenu = (e) => {
+        e.preventDefault();
+        addPumpkin(square);
+      };
+    };
 
     //add numbers to squares indicating nearby ghosts
     for (let i = 0; i < squares.length; i++) {
@@ -45,16 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[i].setAttribute('data', total);
       }
     }    
-  }
+  };
 
   createBoard();
 
+  //add pumpkin with the right click
+  const addPumpkin = (square) => {
+    if (isGameOver) return;
+    if (!square.classList.contains('checked') && (pumpkins < ghostAmount)) {
+      if (!square.classList.contains('pumpkin')) {
+        square.classList.add('pumpkin');
+        square.innerHTML = '🎃';
+        pumpkins++;
+      } else {
+        square.classList.remove('pumpkin');
+        square.innerHTML = '';
+        pumpkins--;
+      }
+    }
+  };
+
   //click on square actions
   const click = (square) => {
+    let currentId = square.id;
     if (isGameOver) return;
     if (square.classList.contains('checked') || square.classList.contains('pumpkin')) return;
     if (square.classList.contains('ghost')) {
-      console.log('game over');
+      gameOver(square)
     } else {
       let total = square.getAttribute('data');
       if (Number(total) !== 0) {
@@ -62,8 +86,72 @@ document.addEventListener('DOMContentLoaded', () => {
         square.innerHTML = total;
         return;
       }
-      square.classList.add('checked');
+      checkSquare(square, currentId)
     }
-  }
+    square.classList.add('checked');
+  };
+
+  //check neighbouring squares once a square is clicked
+  const checkSquare = (square, currentId) => {
+    const isLeftEdge = (currentId % width === 0);
+    const isRightEdge = (currentId % width === width - 1);
+
+    setTimeout(() => {
+      if (currentId > 0 && !isLeftEdge) {
+        const newId = squares[Number(currentId) - 1].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 9 && !isRightEdge) {
+        const newId = squares[Number(currentId) + 1 - width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 10) {
+        const newId = squares[Number(currentId) - width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId > 11 && !isLeftEdge) {
+        const newId = squares[Number(currentId) - 1 - width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 98 && !isRightEdge) {
+        const newId = squares[Number(currentId) + 1].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 90 && !isLeftEdge) {
+        const newId = squares[Number(currentId) - 1 + width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 88 && !isRightEdge) {
+        const newId = squares[Number(currentId) + 1 + width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+      if (currentId < 89) {
+        const newId = squares[Number(currentId) + width].id;
+        const newSquare = document.getElementById(newId);
+        click(newSquare);
+      }
+
+
+    }, 10);
+  };
+
+  //game over!
+  const gameOver = (square) => {
+    isGameOver = true;
+
+    //reveal all ghosts
+    squares.forEach(square => {
+      if (square.classList.contains('ghost')) {
+        square.innerHTML = '👻';
+      }
+    })
+  };
 
 });
