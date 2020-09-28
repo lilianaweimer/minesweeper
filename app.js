@@ -19,31 +19,41 @@ document.addEventListener('DOMContentLoaded', () => {
       square.classList.add(shuffledArray[i]);
       grid.appendChild(square);
       squares.push(square);
+
+      //normal click
+      square.addEventListener('click', (e) => {
+        click(square)
+      })
     }
 
     //add numbers to squares indicating nearby ghosts
-  for (let i = 0; i < squares.length; i++) {
-    let total = 0;
-    const isLeftEdge = (i % width === 0);
-    const isRightEdge = (i % width === width - 1);
+    for (let i = 0; i < squares.length; i++) {
+      let total = 0;
+      const isLeftEdge = (i % width === 0);
+      const isRightEdge = (i % width === width - 1);
 
-    if (squares[i].classList.contains('safe')) {
-      if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('ghost')) total++; 
-      if (i > 9 && !isRightEdge && squares[i + 1 - width].classList.contains('ghost')) total++;
-      if (i > 10 && squares[i - width].classList.conatins('ghost')) total++;
-      if (i > 11 && !isLeftEdge && squares[i - 1 - width].classList.contains('ghost')) total++;
-      if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('ghost')) total++;
-      if (i < 90 && !isLeftEdge && squares[i - 1 + width].classList.contains('ghost')) total++;
-      if (i < 88 && !isRightEdge && squares[i + 1 + width].classList.contains('ghost')) total++;
-      if (i < 89 && squares[i + width].classList.conatins('ghost')) total++;
-      squares[i].setAttribute('data', total);
-      console.log(squares);
-    }
-  }    
-
+      if (squares[i].classList.contains('safe')) {
+        if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains('ghost')) total++;
+        if (i > 9 && !isRightEdge && squares[i + 1 - width].classList.contains('ghost')) total++;
+        if (i > 10 && squares[i -width].classList.contains('ghost')) total++;
+        if (i > 11 && !isLeftEdge && squares[i - 1 - width].classList.contains('ghost')) total++;
+        if (i < 98 && !isRightEdge && squares[i + 1].classList.contains('ghost')) total++;
+        if (i < 90 && !isLeftEdge && squares[i - 1 + width].classList.contains('ghost')) total++;
+        if (i < 88 && !isRightEdge && squares[i + 1 + width].classList.contains('ghost')) total++;
+        if (i < 89 && squares[i +width].classList.contains('ghost')) total++;
+        squares[i].setAttribute('data', total);
+      }
+    }    
   }
 
   createBoard();
+
+  //click on square actions
+  const click = (square) => {
+    if (square.classList.contains('ghost')) {
+      alert('Game over!')
+    }
+  }
 
 
 });
