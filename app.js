@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         square.classList.add('pumpkin');
         square.innerHTML = '🎃';
         pumpkins++;
+        checkForWin();
       } else {
         square.classList.remove('pumpkin');
         square.innerHTML = '';
@@ -153,5 +154,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
   };
+
+  //check for wins
+  const checkForWin = () => {
+    let matches = 0;
+    for (let i = 0; i < squares.length; i++) {
+      if (squares[i].classList.contains('pumpkin') && squares[i].classList.contains('ghost')) {
+        matches++;
+      }
+      if (matches === ghostAmount) {
+        console.log('winner!!');
+        isGameOver = true;
+      }
+    }
+  }
 
 });
